@@ -64,7 +64,7 @@
                             echo "<li> <a href='".$_SERVER['PHP_SELF']."?categoria=$archivo'>".$archivo."</a></li>";
                             mostrarDirectorios($ruta_completa);
                         }else{
-                            echo "<li>".$archivo."</li>";
+                            echo "<li><a href='$ruta/$archivo'>".$archivo."</a></li>";
                         }
                     }
                 }
@@ -76,6 +76,29 @@
             }
          }
 
+         echo " <form  method='get' enctype='multipart/form-data'>
+                <p>Nombre: <input type='text' name='nombre' ></p>
+                <p><input type='submit' value='Crear'></p>
+                </form>";
+
+         $nombre = isset($_GET['nombre']);
+         //Crear nueva carpeta dentro del directorio aplicaciones
+         function crearCarpeta($nombre){
+            if (!file_exists("aplicaciones/".$nombre)) {
+                mkdir("aplicaciones/".$nombre, 0777);
+                echo "bien";
+            }else {
+               echo "ese directorio ya existe";
+           }
+         }
+
+         
+
+         if(isset($_GET['nombre'])){
+            $nombre = $_GET['nombre'];
+            crearCarpeta($nombre);
+         }
+
          //Mira si la categoria esta definida y si lo esta muestra lo que hay dentro
          if (isset($_GET['categoria'])) {
             $archivo = $_GET['categoria'];
@@ -84,6 +107,8 @@
             mostrarDirectorios("aplicaciones");
         }
     ?>
+
+    
 
     
 </body>
